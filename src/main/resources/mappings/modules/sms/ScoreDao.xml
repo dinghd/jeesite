@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.sms.dao.ScoreDao">
+
+  <sql id="Base_Column_List" >
+    id,
+    stu_id as "student.id",
+    cou_id as "course.id",
+    score,
+    reserved1,
+    reserved2,
+    create_by,
+    create_date,
+    update_by,
+    update_date,
+    remarks,
+    del_flag
+  </sql>
+
+  <sql id="Score_Column_List" >
+    sc.id as "id",
+    sc.stu_id as "student.id",
+    sc.cou_id as "course.id",
+    sc.score,
+    sc.reserved1,
+    sc.reserved2,
+    sc.create_by,
+    sc.create_date,
+    sc.update_by,
+    sc.update_date,
+    sc.remarks,
+    sc.del_flag,
+    ss.name as "student.name",
+    ss.no as "student.no",
+    ss.age as "student.age",
+    ss.grade as "student.grade",
+    ss.stu_class as"student.stuClass",
+    cc.name as "course.name"
+  </sql>
+
+  <select id="get" resultType="com.thinkgem.jeesite.modules.sms.entity.Score">
+    select
+    <include refid="Score_Column_List" />
+    from sms_student ss, sms_score sc, sms_course cc
+    where sc.id = #{id} and ss.id = sc.stu_id and sc.cou_id = cc.id
+  </select>
+
+  <select id="findList" resultType="com.thinkgem.jeesite.modules.sms.entity.Score">
+    SELECT
+    <include refid="Score_Column_List" />
+    FROM sms_student ss, sms_score sc, sms_course cc
+    <where>
+      sc.del_flag = #{delFlag} and ss.id = sc.stu_id and sc.cou_id = cc.id
+      <if test="student != null and student.name != null and student.name != ''">
+        AND stu_id in (
+          select s.id from sms_student s where s.name like
+          <if test="dbName == 'oracle'">'%'||#{student.name}||'%'</if>
+          <if test="dbName == 'mssql'">'%'+#{student.name}+'%'</if>
+          <if test="dbName == 'mysql'">CONCAT('%', #{student.name}, '%')</if>
+        )
+      </if>
+      <if test="course != null and course.name != null and course.name != ''">
+        AND cou_id in (
+          select c.id from sms_course c where c.name LIKE
+        <if test="dbName == 'oracle'">'%'||#{course.name}||'%'</if>
+        <if test="dbName == 'mssql'">'%'+#{course.name}+'%'</if>
+        <if test="dbName == 'mysql'">CONCAT('%', #{course.name}, '%')</if>
+        )
+      </if>
+    </where>
+    <choose>
+      <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+        ORDER BY ${page.orderBy}
+      </when>
+      <otherwise>
+        ORDER BY update_date DESC
+      </otherwise>
+    </choose>
+  </select>
+
+  <select id="findAllList" resultType="com.thinkgem.jeesite.modules.sms.entity.Score">
+    SELECT
+      <include refid="Base_Column_List" />
+    FROM sms_score
+    WHERE del_flag = #{DEL_FLAG_NORMAL}
+    ORDER BY update_date DESC
+  </select>
+
+  <insert id="insert">
+    insert into sms_score (
+    id,
+    stu_id,
+    cou_id,
+    score,
+    reserved1,
+    reserved2,
+    create_by,
+    create_date,
+    update_by,
+    update_date,
+    remarks,
+    del_flag
+    )
+    values (
+    #{id},
+    #{student.id},
+    #{course.id},
+    #{score},
+    #{reserved1},
+    #{reserved2},
+    #{createBy.id},
+    #{createDate},
+    #{updateBy.id},
+    #{updateDate},
+    #{remarks},
+    #{delFlag}
+    )
+  </insert>
+
+  <update id="update">
+    update sms_score
+    set stu_id = #{student.id},
+      cou_id = #{course.id},
+      score = #{score},
+      reserved1 = #{reserved1},
+      reserved2 = #{reserved2},
+	  update_by = #{updateBy.id},
+	  update_date = #{updateDate},
+	  remarks = #{remarks},
+	  del_flag = #{delFlag}
+    where id = #{id}
+  </update>
+
+  <update id="delete">
+    UPDATE sms_score SET
+    del_flag = #{delFlag}
+    WHERE id = #{id}
+  </update>
+
+</mapper>
