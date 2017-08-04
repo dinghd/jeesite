@@ -45,6 +45,13 @@
     where sc.id = #{id} and ss.id = sc.stu_id and sc.cou_id = cc.id
   </select>
 
+  <select id="getByStuIdAndCouId" resultType="com.thinkgem.jeesite.modules.sms.entity.Score">
+    select
+    <include refid="Score_Column_List" />
+    from sms_student ss, sms_score sc, sms_course cc
+    where sc.id = #{id} and ss.id = sc.stu_id and sc.cou_id = cc.id and sc.stu_id = #{student.id} and sc.cou_id = #{course.id}
+  </select>
+
   <select id="findList" resultType="com.thinkgem.jeesite.modules.sms.entity.Score">
     SELECT
     <include refid="Score_Column_List" />

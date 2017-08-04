@@ -20,6 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * 学生Controller
@@ -66,6 +67,13 @@ public class ScoreController extends BaseController {
     public String save(Score score, Model model, RedirectAttributes redirectAttributes) {
         if(Global.isDemoMode()){
             addMessage(redirectAttributes, "演示模式，不允许操作！");
+            return "redirect:" + adminPath + "/sms/score/?repage";
+        }
+        List<Score> scores = scoreService.findList(score);
+        if(score.getId() == null && scores.size() > 0){
+            addMessage(redirectAttributes, score.getStudent().getName() + "的"
+                    + score.getCourse().getName() + "成绩已经录入！成绩为: "
+                    + scores.get(0).getScore() + "分！");
             return "redirect:" + adminPath + "/sms/score/?repage";
         }
         if (!beanValidator(model, score)){

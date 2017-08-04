@@ -1,7 +1,9 @@
 package com.thinkgem.jeesite.modules.sms.service;
 
 import com.thinkgem.jeesite.common.service.CrudService;
+import com.thinkgem.jeesite.modules.sms.dao.CourseDao;
 import com.thinkgem.jeesite.modules.sms.dao.ScoreDao;
+import com.thinkgem.jeesite.modules.sms.dao.StudentDao;
 import com.thinkgem.jeesite.modules.sms.entity.Score;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,9 +20,9 @@ import org.springframework.transaction.annotation.Transactional;
 public class ScoreService extends CrudService<ScoreDao, Score>{
 
     @Autowired
-    StudentService studentService;
+    StudentDao studentDao;
     @Autowired
-    CourseService courseService;
+    CourseDao courseDao;
 
     @Transactional(readOnly = false)
     public void delete(Score score, Boolean isRe) {
@@ -32,8 +34,8 @@ public class ScoreService extends CrudService<ScoreDao, Score>{
     public void save(Score score) {
         if (score.getIsNewRecord()){
             score.preInsert();
-            score.setStudent(studentService.getByName(score.getStudent().getName()));
-            score.setCourse(courseService.getByName(score.getCourse().getName()));
+            score.setStudent(studentDao.getByName(score.getStudent().getName()));
+            score.setCourse(courseDao.getByName(score.getCourse().getName()));
             dao.insert(score);
         }else{
             score.preUpdate();

@@ -14,6 +14,6 @@ import com.thinkgem.jeesite.modules.sms.entity.Student;
 @MyBatisDao
 public interface ScoreDao extends CrudDao<Score> {
 
-
+    public Score getByStuIdAndCouId(Score score);
 
 }
