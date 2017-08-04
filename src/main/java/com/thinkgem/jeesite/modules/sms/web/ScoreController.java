@@ -4,8 +4,12 @@ import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.web.BaseController;
+import com.thinkgem.jeesite.modules.sms.entity.Course;
 import com.thinkgem.jeesite.modules.sms.entity.Score;
+import com.thinkgem.jeesite.modules.sms.entity.Student;
+import com.thinkgem.jeesite.modules.sms.service.CourseService;
 import com.thinkgem.jeesite.modules.sms.service.ScoreService;
+import com.thinkgem.jeesite.modules.sms.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,6 +33,10 @@ public class ScoreController extends BaseController {
 
     @Autowired
     private ScoreService scoreService;
+    @Autowired
+    private StudentService studentService;
+    @Autowired
+    private CourseService courseService;
 
     @ModelAttribute
     public Score get(@RequestParam(required=false) String id) {
@@ -48,6 +56,8 @@ public class ScoreController extends BaseController {
 
     @RequestMapping(value = "form")
     public String form(Score score, Model model) {
+        model.addAttribute("students",studentService.findList(new Student()));
+        model.addAttribute("courses",courseService.findList(new Course()));
         model.addAttribute("score", score);
         return "modules/sms/scoreForm";
     }

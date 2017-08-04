@@ -14,6 +14,6 @@ import com.thinkgem.jeesite.modules.sms.entity.Student;
 @MyBatisDao
 public interface CourseDao extends CrudDao<Course> {
 
-
+    public Course getByName(String name);
 
 }

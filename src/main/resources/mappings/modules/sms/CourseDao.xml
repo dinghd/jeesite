@@ -13,6 +13,13 @@
     where id = #{id}
   </select>
 
+  <select id="getByName" resultType="com.thinkgem.jeesite.modules.sms.entity.Course">
+    select
+    <include refid="Base_Column_List" />
+    from sms_course
+    where name = #{name}
+  </select>
+
   <select id="findList" resultType="com.thinkgem.jeesite.modules.sms.entity.Course">
     SELECT
     <include refid="Base_Column_List" />

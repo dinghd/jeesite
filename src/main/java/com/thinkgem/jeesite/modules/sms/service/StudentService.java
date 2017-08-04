@@ -22,4 +22,9 @@ public class StudentService extends CrudService<StudentDao, Student>{
         super.delete(student);
     }
 
+    @Transactional(readOnly = false)
+    public Student getByName(String name) {
+        return dao.getByName(name);
+    }
+
 }

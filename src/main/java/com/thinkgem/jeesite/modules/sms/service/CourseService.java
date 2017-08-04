@@ -22,4 +22,9 @@ public class CourseService extends CrudService<CourseDao, Course>{
         super.delete(course);
     }
 
+    @Transactional(readOnly = false)
+    public Course getByName(String name) {
+        return dao.getByName(name);
+    }
+
 }

@@ -13,6 +13,8 @@ import com.thinkgem.jeesite.modules.sms.entity.Student;
 @MyBatisDao
 public interface StudentDao extends CrudDao<Student> {
 
+    public Student getByName(String name);
+
 
 
 }
