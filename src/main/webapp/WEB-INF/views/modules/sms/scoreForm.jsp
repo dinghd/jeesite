@@ -35,22 +35,42 @@
 		<form:form id="inputForm" modelAttribute="score" action="${ctx}/sms/score/save" method="post" class="form-horizontal">
 			<form:hidden path="id"/>
 			<sys:message content="${message}"/>
-			<div class="control-group">
+			<div class="form-group">
 				<label class="control-label">学生:</label>
-				<div class="controls">
-					<form:select path="student.name" items="${students}" itemLabel="name" itemValue="name" cssStyle="width: 30%;"/>
-				</div>
+				<c:choose>
+					<c:when test="${not empty score.id}">
+						<div class="controls">
+							<input type="text" value="${score.student.name}" disabled class="input-xlarge required"	/>
+						</div>
+					</c:when>
+					<c:otherwise>
+						<div class="controls">
+							<form:select path="student.name" items="${students}" itemLabel="name" itemValue="name" cssStyle="width: 30%;"/>
+						</div>
+					</c:otherwise>
+				</c:choose>
 			</div>
-			<div class="control-group">
+			<br>
+			<div class="form-group">
 				<label class="control-label">课程:</label>
-				<div class="controls">
-					<form:select path="course.name" items="${courses}" itemLabel="name" itemValue="name" cssStyle="width: 30%;" />
-				</div>
+				<c:choose>
+					<c:when test="${not empty score.id}">
+						<div class="controls">
+							<input type="text" value="${score.course.name}" disabled class="input-xlarge required"	/>
+						</div>
+					</c:when>
+					<c:otherwise>
+						<div class="controls">
+							<form:select path="course.name" items="${courses}" itemLabel="name" itemValue="name" cssStyle="width: 30%;" />
+						</div>
+					</c:otherwise>
+				</c:choose>
 			</div>
-			<div class="control-group">
+			<br>
+			<div class="form-group">
 				<label class="control-label">成绩:</label>
 				<div class="controls">
-					<form:input path="score" htmlEscape="false" maxlength="200" class="input-xlarge required"/>
+					<form:input path="score" htmlEscape="false" maxlength="200" class="input-xlarge required digits"/>
 				</div>
 			</div>
 			<div class="form-actions">
