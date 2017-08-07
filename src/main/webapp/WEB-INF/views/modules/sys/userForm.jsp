@@ -35,7 +35,14 @@
 <body>
 	<ul class="nav nav-tabs">
 		<li><a href="${ctx}/sys/user/list">用户列表</a></li>
-		<li class="active"><a href="${ctx}/sys/user/form?id=${user.id}">用户<shiro:hasPermission name="sys:user:edit">${not empty user.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="sys:user:edit">查看</shiro:lacksPermission></a></li>
+		<li class="active">
+			<a href="${ctx}/sys/user/form?id=${user.id}">用户
+				<shiro:hasPermission name="sys:user:edit">
+				     ${not empty user.id?'修改':'添加'}
+				</shiro:hasPermission>
+				<shiro:lacksPermission name="sys:user:edit">
+					查看
+				</shiro:lacksPermission></a></li>
 	</ul><br/>
 	<form:form id="inputForm" modelAttribute="user" action="${ctx}/sys/user/save" method="post" class="form-horizontal">
 		<form:hidden path="id"/>

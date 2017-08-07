@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.msg.dao.StudentDao">
+
+
+	<sql id="studentColumns">
+	    id, name, no, age, grade,stuclass,reserved1, reserved2
+	</sql>
+
+	<!--查询课程列表-->
+	<select id="findList" parameterType="com.thinkgem.jeesite.modules.msg.entity.Student" resultType="Student">
+         SELECT
+          <include refid="studentColumns"/>
+		 FROM st_student
+		WHERE 1=1
+		<if test="name != null and name != null and name != ''">
+			AND name like  CONCAT('%','${name}','%')
+		</if>
+		ORDER BY no
+	</select>
+	<select id="get" parameterType="com.thinkgem.jeesite.modules.msg.entity.Student" resultType="Student">
+		SELECT id, name, no, age, grade,stuclass,reserved1, reserved2
+		FROM st_student
+		WHERE id=#{id}
+	</select>
+	<insert id="insert" >
+		INSERT INTO st_student(
+		name, no, age, grade,stuclass,reserved1, reserved2
+		) VALUES (
+	    #{name},
+	    #{no},
+	    #{age},
+	    #{grade},
+	    #{stuclass},
+		#{reserved1},
+		#{reserved2}
+		)
+	</insert>
+
+	<delete id="delete" >
+		delete from st_student
+		where id = #{id}
+	</delete>
+
+	<update id="update">
+		UPDATE st_student SET
+		name = #{name},
+		no = #{no},
+		age = #{age},
+		grade = #{grade},
+		stuclass = #{stuclass},
+		reserved1 = #{reserved1},
+		reserved2 = #{reserved2}
+		WHERE id = #{id}
+	</update>
+
+
+
+</mapper>

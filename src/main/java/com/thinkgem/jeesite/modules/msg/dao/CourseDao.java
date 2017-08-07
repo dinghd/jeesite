@@ -5,21 +5,10 @@ package com.thinkgem.jeesite.modules.msg.dao;
 
 import com.thinkgem.jeesite.common.persistence.CrudDao;
 import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
-import com.thinkgem.jeesite.modules.oa.entity.OaNotify;
+import com.thinkgem.jeesite.modules.msg.entity.Course;
 
-/**
- * 通知通告DAO接口
- * @author ThinkGem
- * @version 2014-05-16
- */
 @MyBatisDao
-public interface OaNotifyDao extends CrudDao<OaNotify> {
-	
-	/**
-	 * 获取通知数目
-	 * @param oaNotify
-	 * @return
-	 */
-	public Long findCount(OaNotify oaNotify);
-	
+public interface CourseDao extends CrudDao<Course>{
+
+
 }
