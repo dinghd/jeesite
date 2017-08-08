@@ -70,7 +70,7 @@ public class ScoreController extends BaseController {
             return "redirect:" + adminPath + "/sms/score/?repage";
         }
         List<Score> scores = scoreService.findList(score);
-        if(score.getId() == null && scores.size() > 0){
+        if((score.getId() == null || "".equals(score.getId())) && scores.size() > 0){
             addMessage(redirectAttributes, score.getStudent().getName() + "的"
                     + score.getCourse().getName() + "成绩已经录入！成绩为: "
                     + scores.get(0).getScore() + "分！");
@@ -91,7 +91,7 @@ public class ScoreController extends BaseController {
             return "redirect:" + adminPath + "/sms/score/?repage";
         }
         scoreService.delete(score, isRe);
-        addMessage(redirectAttributes, (isRe!=null&&isRe?"恢复":"")+"删除学生成功");
+        addMessage(redirectAttributes, (isRe!=null&&isRe?"恢复":"")+"删除成绩成功");
         return "redirect:" + adminPath + "/sms/score/?repage";
     }
 
